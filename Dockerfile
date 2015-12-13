@@ -5,8 +5,11 @@ MAINTAINER Chris Kankiewicz <Chris@ChrisKankiewciz.com>
 ENV CP_DIR /opt/CouchPotatoServer
 
 # Upgrade packages and install dependencies
-RUN apk add --update ca-certificates python py-openssl tar wget \
+RUN apk add --update ca-certificates gcc libffi-dev libxml2-dev musl-dev openssl-dev \
+    python py-openssl py-pip tar wget \
     && rm -rf /var/cache/apk/*
+
+RUN pip install pyOpenSSL
 
 # Creat directory
 RUN mkdir -p ${CP_DIR}
