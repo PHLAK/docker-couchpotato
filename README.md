@@ -3,11 +3,11 @@ docker-couchpotato
 
 Docker container for CouchPotato server
 
+[![](https://badge.imagelayers.io/phlak/couchpotato:latest.svg)](https://imagelayers.io/?images=phlak/couchpotato:latest 'Get your own badge on imagelayers.io')
 
 ### Running the container
 
     docker run -d -p 5050:5050 --restart=always --name couchpotato phlak/couchpotato
-
 
 -----
 
