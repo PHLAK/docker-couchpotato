@@ -4,8 +4,8 @@ MAINTAINER Chris Kankiewicz <Chris@ChrisKankiewciz.com>
 # Set CouchPotato directory
 ENV CP_DIR /opt/CouchPotatoServer
 
-# Upgrade packages and install dependencies
-RUN apk add --update ca-certificates gcc libffi-dev libxml2-dev libxslt-dev
+# Install dependencies
+RUN apk add --update ca-certificates gcc jq libffi-dev libxml2-dev libxslt-dev \
     musl-dev openssl-dev python py-openssl py-pip tar wget \
     && rm -rf /var/cache/apk/*
 
@@ -15,7 +15,8 @@ RUN pip install lxml pyOpenSSL
 RUN mkdir -p ${CP_DIR}
 
 # Download and extract CouchPotato archive
-RUN wget -qO- https://github.com/RuudBurger/CouchPotatoServer/archive/build/3.0.1.tar.gz \
+RUN CP_TARBALL=$(wget -qO- https://api.github.com/repos/RuudBurger/CouchPotatoServer/releases | jq -r '.[0].tarball_url') \
+    && wget -qO- ${CP_TARBALL} \
     | tar -xz --strip-components=1 -C ${CP_DIR}
 
 # Expose port
