@@ -1,23 +1,19 @@
 FROM alpine:3.2
 MAINTAINER Chris Kankiewicz <Chris@ChrisKankiewciz.com>
 
-# Set CouchPotato directory
+# Create CouchPotato directory
 ENV CP_DIR /opt/CouchPotatoServer
+RUN mkdir -p ${CP_DIR}
 
 # Install dependencies
 RUN apk add --update ca-certificates gcc jq libffi-dev libxml2-dev libxslt-dev \
     musl-dev openssl-dev python py-openssl py-pip tar wget \
-    && rm -rf /var/cache/apk/*
-
-RUN pip install lxml pyOpenSSL
-
-# Creat directory
-RUN mkdir -p ${CP_DIR}
+    && rm -rf /var/cache/apk/* \
+    && pip install lxml pyOpenSSL
 
 # Download and extract CouchPotato archive
 RUN CP_TARBALL=$(wget -qO- https://api.github.com/repos/RuudBurger/CouchPotatoServer/releases | jq -r '.[0].tarball_url') \
-    && wget -qO- ${CP_TARBALL} \
-    | tar -xz --strip-components=1 -C ${CP_DIR}
+    && wget -qO- ${CP_TARBALL} | tar -xz --strip-components=1 -C ${CP_DIR}
 
 # Expose port
 EXPOSE 5050
