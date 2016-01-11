@@ -1,22 +1,28 @@
 FROM alpine:3.2
 MAINTAINER Chris Kankiewicz <Chris@ChrisKankiewciz.com>
 
-# Create CouchPotato directory
-ENV CP_DIR /opt/CouchPotatoServer
-RUN mkdir -p ${CP_DIR}
+# Define CouchPotato version
+ENV CP_VERSION 3.0.1
+
+# Create CouchPotato directories
+RUN mkdir -p /opt/couchpotato
 
 # Install dependencies
-RUN apk add --update ca-certificates gcc jq libffi-dev libxml2-dev libxslt-dev \
+RUN apk add --update ca-certificates gcc libffi-dev libxml2-dev libxslt-dev \
     musl-dev openssl-dev python py-openssl py-pip tar wget \
-    && pip install --no-cache-dir lxml pyOpenSSL \
-    && rm -rf /var/cache/apk/* && rm -rf ~/.cache/pip/
+    && rm -rf /var/cache/apk/*
+
+# Install pip-managed dependencies
+RUN pip install --no-cache-dir lxml pyOpenSSL
+
+# Set CouchPotato archive URL
+ENV TARBALL_URL https://api.github.com/repos/RuudBurger/CouchPotatoServer/tarball/build/${CP_VERSION}
 
 # Download and extract CouchPotato archive
-RUN CP_TARBALL=$(wget -qO- https://api.github.com/repos/RuudBurger/CouchPotatoServer/releases | jq -r '.[0].tarball_url') \
-    && wget -qO- ${CP_TARBALL} | tar -xz --strip-components=1 -C ${CP_DIR}
+RUN wget -qO- ${TARBALL_URL} | tar -xz --strip-components=1 -C /opt/couchpotato
 
 # Expose port
 EXPOSE 5050
 
 # Set default command
-CMD python ${CP_DIR}/CouchPotato.py --console_log
+CMD ["/opt/couchpotato/CouchPotato.py", "--console_log"]

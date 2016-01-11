@@ -7,8 +7,8 @@ IMAGE_NAME="phlak/couchpotato"
 # Set script directory path
 SCRIPT_DIR="$(dirname $(readlink -f ${0}))"
 
-# Set tag from git commit hash
-TAG="$(git rev-parse --short HEAD)"
+# Set image tag
+TAG="$(grep 'ENV CP_VERSION' Dockerfile | awk '{print $3}')"
 
 # Build the image
 docker build --force-rm --pull --tag ${IMAGE_NAME}:${TAG} ${SCRIPT_DIR}
