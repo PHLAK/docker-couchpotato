@@ -1,7 +1,7 @@
 docker-couchpotato
 ==================
 
-Docker container for CouchPotato server
+Docker image for CouchPotato server
 
 [![](https://badge.imagelayers.io/phlak/couchpotato:latest.svg)](https://imagelayers.io/?images=phlak/couchpotato:latest 'Get your own badge on imagelayers.io')
 
