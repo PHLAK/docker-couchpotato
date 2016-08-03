@@ -3,7 +3,7 @@ docker-couchpotato
 
 Docker container for CouchPotato server
 
-[![](https://badge.imagelayers.io/phlak/couchpotato:latest.svg)](https://imagelayers.io/?images=phlak/couchpotato:latest 'Get your own badge on imagelayers.io')
+[![](https://images.microbadger.com/badges/image/phlak/couchpotato.svg)](http://microbadger.com/#/images/phlak/couchpotato "Get your own image badge on microbadger.com")
 
 ### Running the container
 
